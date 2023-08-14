@@ -2,11 +2,48 @@
 trigger:
 - main
 
-pr jobs:
+jobs:
 - job: BuildAndPush
   pool:
     vmImage: 'ubuntu-latest'
   steps:
+
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'connectionAshDevops'
+      scriptType: 'pscore'
+      scriptLocation: 'inlineScript'
+      inlineScript: 'az login'
+
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'connectionAshDevops'
+      scriptType: 'pscore'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        az role assignment create --role Contributor --assignee 'user-email-or-object-id' --resource-group 'test'
+
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'connectionAshDevops'
+      scriptType: 'pscore'
+      scriptLocation: 'inlineScript'
+      inlineScript: 'az logout'
+
+  - script: docker build -t pipelines-javascript-docker:$(Build.BuildId) .
+    displayName: 'Build Docker Image'
+    env:
+      DOCKER_BUILDKIT: 1
+
+  - script: docker login -u $mdaziz -p $Clubca1920
+    displayName: 'Docker Login'
+
+  - script: docker tag pipelines-javascript-docker:$(Build.BuildId) mdaziz/pipelines-javascript-docker:latest
+    displayName: 'Tag Docker Image'
+
+  - script: docker push mdaziz/pipelines-javascript-docker:latest
+    displayName: 'Push Docker Image'
+
   - script: docker build -t pipelines-javascript-docker:$(Build.BuildId) .
     displayName: 'Build Docker Image'
     env:
