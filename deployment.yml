@@ -1,0 +1,22 @@
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pipelines-javascript-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pipelines-javascript
+  template:
+    metadata:
+      labels:
+        app: pipelines-javascript
+    spec:
+      containers:
+        - name: pipelines-javascript
+          image: mdaziz/pipelines-javascript-docker:latest
+          ports:
+            - containerPort: 80
+
