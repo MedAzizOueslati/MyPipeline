@@ -1,29 +1,28 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
 - main
 
-resources:
-- repo: self
+pr jobs:
+- job: BuildAndPush
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - script: docker build -t pipelines-javascript-docker:$(Build.BuildId) .
+    displayName: 'Build Docker Image'
+    env:
+      DOCKER_BUILDKIT: 1
+  - script: docker login -u $mdaziz -p $Clubca1920
+    displayName: 'Docker Login'
+  - script: docker tag pipelines-javascript-docker:$(Build.BuildId) mdaziz/pipelines-javascr$
+    displayName: 'Tag Docker Image'
+  - script: docker push mdaziz/pipelines-javascript-docker:latest
+    displayName: 'Push Docker Image'
 
-variables:
-  tag: '$(Build.BuildId)'
+- job: DeployToAKS
+  dependsOn: BuildAndPush
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - script: kubectl apply -f deployment.yaml
+    displayName: 'Deploy to AKS'
 
-stages:
-- stage: Build
-  displayName: Build image
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-    - task: Docker@2
-      displayName: Build an image
-      inputs:
-        command: build
-        dockerfile: '/app'
-        tags: |
-          $(tag)
