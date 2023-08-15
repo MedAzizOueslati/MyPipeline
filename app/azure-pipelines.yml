@@ -17,7 +17,7 @@ steps:
   displayName: 'Set AKS kubeconfig'
 
 - script: |
-    DOCKER_BUILDKIT=0 docker build -t pipelines-javascript-docker:$(Build.BuildId) /MyPipeline/app/Dockerfile
+    DOCKER_BUILDKIT=0 docker build -t myPipeline:$(Build.BuildId) .
   displayName: 'Build Docker Image'
 
 - script: |
