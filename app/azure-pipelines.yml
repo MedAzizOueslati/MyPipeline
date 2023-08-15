@@ -17,7 +17,7 @@ steps:
   displayName: 'Set AKS kubeconfig'
 
 - script: |
-    docker build -t pipelines-javascript-docker:$(Build.BuildId) .
+    docker build -t pipelines-javascript-docker:$(Build.BuildId) /app
   displayName: 'Build Docker Image'
 
 - script: |
