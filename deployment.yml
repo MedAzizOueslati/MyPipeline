@@ -1,22 +1,36 @@
 
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pipelines-javascript-deployment
+  name: MyPipeline-deployment
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: pipelines-javascript
+      app: myApp
   template:
     metadata:
       labels:
-        app: pipelines-javascript
+        app:
     spec:
       containers:
-        - name: pipelines-javascript
+        - name: myContainer
           image: mdaziz/pipelines-javascript-docker:latest
           ports:
             - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myPipeline-service
+spec:
+  selector:
+    app: myApp
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer
+
 
