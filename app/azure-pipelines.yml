@@ -4,7 +4,13 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+
 steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
+    
 - script: |
     echo "Azure Login"
     az login --service-principal -u "e90f8a1a-6cfd-48dc-863c-d6bc7356fea2" -p "fWS8Q~zOPGixhTXuCopEXzfWKk0lWTmJZ6bDlcRW" --tenant "7917799a-9669-4e41-b87d-4c14fefd7c41"
