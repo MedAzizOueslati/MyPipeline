@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: MyPipeline-deployment
+  name: mypipeline-deployment
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: myApp
+      app: myapp
   template:
     metadata:
       labels:
         app:
     spec:
       containers:
-        - name: myContainer
+        - name: mycontainer
           image: mdaziz/pipelines-javascript-docker:latest
           ports:
             - containerPort: 80
@@ -24,10 +24,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: myPipeline-service
+  name: mypipeline-service
 spec:
   selector:
-    app: myApp
+    app: myapp
   ports:
     - port: 80
       targetPort: 8080
