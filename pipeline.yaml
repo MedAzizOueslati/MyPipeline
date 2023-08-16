@@ -27,7 +27,7 @@ steps:
   displayName: 'Build Docker Image'
 
 - script: |
-    docker login -u $mdaziz -p $Clubca1920
+    docker login -u mdaziz -p Clubca1920
   displayName: 'Docker Login'
 
 - script: |
