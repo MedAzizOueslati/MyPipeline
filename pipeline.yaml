@@ -6,10 +6,7 @@ pool:
 
 
 steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.x'
-    addToPath: true
+
     
 - script: |
     echo "Azure Login"
@@ -30,9 +27,6 @@ steps:
     docker login -u mdaziz -p Clubca1920
   displayName: 'Docker Login'
 
-- script: |
-    docker tag pipelines-javascript-docker:$(Build.BuildId) mdaziz/pipelines-javascript-docker:latest
-  displayName: 'Tag Docker Image'
 
 - script: |
     docker push mdaziz/pipelines-javascript-docker:latest
