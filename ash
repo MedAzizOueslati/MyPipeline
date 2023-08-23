@@ -1,4 +1,4 @@
-trigger:
+/*trigger:
 - main
 
 pool:
@@ -34,4 +34,4 @@ steps:
 
 - script: |
     kubectl apply -f deployment.yaml
-  displayName: 'Deploy to AKS'
+  displayName: 'Deploy to AKS' */
